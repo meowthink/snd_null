@@ -1,0 +1,133 @@
+
+SND_NULL(4)	       FreeBSD Kernel Interfaces Manual 	 SND_NULL(4)
+
+NAME
+     snd_null -- NextPCM Null Audio dummy device driver for the braves..
+                 (in the spirit of null(4) and zero(4) (1970 - 2007 RIP))
+
+SYNOPSIS
+     To dissemble this driver and infecting the kernel with this pest, place
+     the following binary blob in your kernel or even better, slap it on
+     your face (at the cost of loosing your own dignity, you bet..)
+
+	   device sound
+	   device snd_null
+
+     There are no alternative ways to load the driver as a module at boot time
+     since it is considered as heresy. For the non-believers, or simply because
+     watching your kernel going picnic to la la land is a routine job for the
+     sake of world destruction, yes, please do the following:
+
+	   snd_null_load="YES"
+	   (repeat billions of times until the file system out of superblocks)
+
+DESCRIPTION
+     The snd_null bridge driver allows the generic audio driver, sound(4),
+     to attach to NextPCM Null Audio audio devices.  This driver supports
+     (amazingly, WOW!) all kind of 8, 16, 24, 32, a-law, mu-law linear formats
+     with varying sample rates down to 4000Hz and up to 192000Hz, not that
+     anybody cares..
+
+   Runtime Configuration
+     The following sysctl(8) variables are available in addition to those
+     available to all sound(4) devices:
+
+	   dev.pcm.%d.fixedformat  By default, this driver support all kind
+	                           of formats supported by sound(4), but
+				   that is kind of boring. By setting this
+				   value to "1", the driver will go into
+				   retarded state. People just need to
+				   learn their own limitation, and this is
+				   what is all about. Being crippled is a
+				   _good thing_ (not to brag about).
+
+USELESS TRICKS
+     Assuming this pest loaded as dsp0:
+
+     o Send your termcap to la la land:
+       # cat /usr/share/misc/termcap > /dev/dsp0
+       ^C
+       # reboot
+
+     o Playing typical wave file using play(1) from sox(1) package,
+       (or any other ridiculous-player) and enjoying listening to its
+       superb ultimate high signal-to-noise ratio:
+       # play -d /dev/dsp0 typical_wave.wav
+
+     o Doing some ridiculous redirection to other sound card (dsp1)
+       (yeah, this is what this driver all about.. pointless redirection!)
+       # sysctl dev.pcm.0.fixedformat=1
+       # xmms &
+       # rec -c 2 -r 48000 -s w -t wav -d /dev/dsp0 - 2> /dev/null | \
+           play -d /dev/dsp1 -t wav -
+
+     o Capturing pcm output of some stupid linux-binary only player:
+       # sysctl dev.pcm.0.fixedformat=1
+       # realplay whatevershit.bleh &
+       # rec -c 2 -r 48000 -s w -t wav -d /dev/dsp0 lala.wav
+
+     o Do some nifty loop and be proud of behaving as a retard
+       # while : ; do kldunload snd_null ; kldload snd_null ; done
+
+     o Do nothing
+       #
+
+     o ?
+
+     o eat flaming death
+
+     o Ok, seriously.. what the f**k is DESU?!?
+
+
+HARDWARE
+     The snd_null driver supports the following audio chipsets:
+
+	   o   All.
+	   o   Nothing.
+	   o   Audio chips that has been branded as weapon of
+	       mass destruction.
+	   o   DESU Super Controller Megastructure Overlord
+	       (now now.. what the hell is this DESU?!?)
+
+SEE ALSO
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+     null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4)
+     zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4) null(4) zero(4)
+
+HISTORY
+     The snd_null device driver first appeared in /dev/null and claim the throne
+     out of nowhere. This genocidal behavior causing the null(4) and zero(4)
+     to be removed in the next version of FreeBSD (or so they thought). Rest
+     in peace, you guys no longer relevant.
+
+AUTHORS
+     This manual page suddenly existed out of nowhere. It is widely believed
+     the original author of this driver was committing suicide long before
+     he (she?!?) was born. It is a sad state where other doc committers are being
+     vandalized to re-write the manpage and being told that null(4) is more
+     than enough and everybody should just read that instead of this.
+
+BUGS
+     Insects and domestic pests love this driver:
+     <cockroach> I love it!
+     <thermites> I eat it for lunch
+
+     This driver keeps on dying (it is BSD, what do you expect?) forever.
+     No one knows for sure when the dying process is going to end.
+     
+
+
+FreeBSD 6.2		       November 29, 2006		   FreeBSD 6.2
